@@ -32,7 +32,7 @@ class Command(BaseCommand):
                         id = movie_id, 
                         defaults = {
                             'title': movie_data['title'],
-                            'genre': movie_data['genre_ids'][0] if movie_data['genre_ids'] else "Unknown",
+                            'genre': movie_data['genre_ids'][0],
                             'release_date': datetime.strptime(movie_data['release_date'], '%Y-%m-%d'),
                             'duration': runtime,
                             'description': movie_data['overview'],

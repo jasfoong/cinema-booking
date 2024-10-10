@@ -10,7 +10,7 @@ class Genre(models.Model):
 class Movie(models.Model):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255)
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    genre = models.IntegerField()
     release_date = models.DateField()
     duration = models.IntegerField()
     description = models.TextField()
