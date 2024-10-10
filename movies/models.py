@@ -1,12 +1,11 @@
 from django.db import models
 
 class Movie(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255)
     genre = models.CharField(max_length=100)
     release_date = models.DateField()
-    director = models.CharField(max_length=100)
-    duration = models.DurationField()
+    duration = models.IntegerField()
     description = models.TextField()
 
     def __str__(self):
