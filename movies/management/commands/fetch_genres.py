@@ -7,6 +7,8 @@ class Command(BaseCommand):
     help = 'Fetch genres from the TMDb API to populate the database'
 
     def handle (self, *args, **kwargs):
+        Genre.objects.all().delete()
+
         api_key = settings.TMDB_API_KEY
         genres_url = f'https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US'
 
@@ -17,7 +19,7 @@ class Command(BaseCommand):
 
             for genre_data in genres_data:
                 genre, created = Genre.objects.get_or_create(
-                    tmdb_id = genre_data['id'],
+                    id = genre_data['id'],
                     defaults={
                         'name': genre_data['name']
                     }
