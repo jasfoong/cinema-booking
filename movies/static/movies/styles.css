@@ -1,0 +1,42 @@
+body {
+    background-color: #dddddd; 
+    font-family: Arial, sans-serif; 
+    color: #302932;
+}
+
+h1, h2 {
+    color: #520099; 
+    font-weight: 600;
+    padding: 1rem 0;
+}
+
+.card {
+    border-radius: 0.625rem;
+}
+
+.card-title {
+    font-size: 1.5rem; 
+    color: #520099; 
+}
+
+.card-text {
+    margin: 10px 0; 
+}
+
+.list-group-item {
+    background-color: #deceff; 
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+.btn {
+    background-color: #e0d2fe; 
+    border: none;
+    color: #260032;
+}
+
+.btn:hover {
+    background-color: #766796; 
+}

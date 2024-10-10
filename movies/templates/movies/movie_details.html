@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} - Showtimes</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'movies/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">{{ movie.title }}</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Details</h5>
+                <p class="card-text"><strong>Genre:</strong> {{ movie.genre.name }}</p>
+                <p class="card-text"><strong>Duration:</strong> {{ movie.duration }} mins</p>
+                <p class="card-text"><strong>Release Date:</strong> {{ movie.release_date }}</p>
+                <p class="card-text">{{ movie.description }}</p>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Showtimes</h2>
+        <ul class="list-group mb-4">
+            {% for showtime in showtimes %}
+                <li class="list-group-item">{{ showtime.showtime }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="text-center">
+            <a href="{% url 'movie_list' %}" class="btn btn-primary">Back to Movie List</a>
+        </div>
+    </div>
+</body>
+</html>
