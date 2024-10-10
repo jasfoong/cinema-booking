@@ -18,23 +18,14 @@ class Movie(models.Model):
     def __str__(self):
         return self.title 
     
-class Theatre(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    total_seats = models.IntegerField()
-
-    def __str__(self):
-        return self.name
-    
 class Showtimes(models.Model):
     id = models.AutoField(primary_key=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    theatre = models.ForeignKey(Theatre, on_delete=models.CASCADE)
     showtime = models.DateTimeField()
+    ticket_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.movie.title} at {self.theatre.name} on {self.showtime}"
+        return f"{self.movie.title} at {self.showtime}"
     
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
