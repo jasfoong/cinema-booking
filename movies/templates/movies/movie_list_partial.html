@@ -1,0 +1,16 @@
+{% for movie in movies %}
+<div class="col-md-4 mb-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-details">{{ movie.genre.name }}</p>
+            <p class="card-details">{{ movie.duration }} mins</p>
+            <a href="{% url 'movie_details' movie.id %}" class="btn btn-primary">View Showtimes</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-md-12">
+    <p>No movies found.</p>
+</div>
+{% endfor %}

@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'movies/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
         <h1 class="mt-4">Now Playing</h1>
-        <div class="row">
+        
+        <div class="form-inline mb-4">
+            <input type="text" id="search" class="form-control mr-2" placeholder="Search by title..." value="{{ search_query }}" oninput="filterMovies()">
+
+            <select id="genre" class="form-control mr-2" onchange="filterMovies()">
+                <option value="">All Genres</option>
+                {% for genre in genres %}
+                    <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == selected_genre|stringformat:"s" %}selected{% endif %}>{{ genre.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="movie-list" class="row">
             {% for movie in movies %}
             <div class="col-md-4 mb-3">
                 <div class="card">
@@ -26,5 +38,30 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- JavaScript to handle real-time filtering -->
+    <script>
+        function filterMovies() {
+            const searchQuery = document.getElementById('search').value;
+            const selectedGenre = document.getElementById('genre').value;
+
+            const xhr = new XMLHttpRequest();
+
+            // Define the request
+            xhr.open('GET', `?search=${searchQuery}&genre=${selectedGenre}`, true);
+
+            // Set the response handler
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Replace the movie list with the response content
+                    document.getElementById('movie-list').innerHTML = xhr.responseText;
+                }
+            };
+
+            // Send the request
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.send();
+        }
+    </script>
 </body>
 </html>

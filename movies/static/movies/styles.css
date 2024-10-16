@@ -10,6 +10,10 @@ h1, h2 {
     padding: 1rem 0;
 }
 
+.form-inline input, .form-inline select {
+    margin-right: 0.625rem;
+}
+
 .card {
     border-radius: 0.625rem;
 }
