@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Seat</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'movies/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Select Your Seat</h1>
+
+        <div class="screen">Screen</div>
+        
+        <div class="row justify-content-center">
+            {% for row in seating %}
+                <div class="col-12 text-center mb-3">
+                    <div class="row justify-content-center">
+                        {% for seat in row %}
+                            <div class="col-2 text-center">
+                                <button class="btn btn-outline-secondary seat {% if seat.unavailable %}unavailable{% endif %}" id="{{ seat.id }}">{{ seat.label }}</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-primary">Confirm Selection</button>
+        </div>
+    </div>
+
+    <script>
+        const seats = document.querySelectorAll('.seat');
+        seats.forEach(seat => {
+            seat.addEventListener('click', function() {
+                if (!seat.classList.contains('unavailable')) {
+                    seat.classList.toggle('selected');
+                }
+            })
+        })
+    </script>
+</body>
+</html>
