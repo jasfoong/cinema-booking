@@ -10,17 +10,17 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-4">Select Your Seat</h1>
+        <h1 class="mt-4">Select Your Seat for {{ showtime.movie.title }}</h1>
 
         <div class="screen">Screen</div>
         
         <div class="row justify-content-center">
-            {% for row in seating %}
+            {% for row, seats in seating.items %}
                 <div class="col-12 text-center mb-3">
                     <div class="row justify-content-center">
-                        {% for seat in row %}
+                        {% for seat in seats %}
                             <div class="col-2 text-center">
-                                <button class="btn btn-outline-secondary seat {% if seat.unavailable %}unavailable{% endif %}" id="{{ seat.id }}">{{ seat.label }}</button>
+                                <button class="btn btn-outline-secondary seat {% if not seat.is_available %}unavailable{% endif %}" id="{{ seat.row }}{{ seat.number }}">{{ seat.row }}{{ seat.number }}</button>
                             </div>
                         {% endfor %}
                     </div>

@@ -27,6 +27,12 @@ class Showtimes(models.Model):
     def __str__(self):
         return f"{self.movie.title} at {self.showtime}"
     
+class Seat(models.Model):
+    showtime = models.ForeignKey(Showtimes, on_delete=models.CASCADE)
+    row = models.CharField(max_length=1)
+    number = models.IntegerField()
+    is_available = models.BooleanField(default=True)
+
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
     showtime = models.ForeignKey(Showtimes, on_delete=models.CASCADE)

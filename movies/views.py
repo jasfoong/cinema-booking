@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Movie, Showtimes, Genre
+from .models import Movie, Showtimes, Genre, Seat
 
 def movie_list(request):
     search_query = request.GET.get('search', '')
@@ -34,3 +34,22 @@ def movie_details(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     showtimes = Showtimes.objects.filter(movie=movie)
     return render(request, 'movies/movie_details.html', {'movie': movie, 'showtimes': showtimes})
+
+def seat_selection(request, showtime_id):
+    showtime = get_object_or_404(Showtimes, id=showtime_id)
+
+    seats = Seat.objects.filter(showtime=showtime).order_by('row', 'number')
+
+    # Group seats by row for display
+    seating = {}
+    for seat in seats:
+        if seat.row not in seating:
+            seating[seat.row] = []
+        seating[seat.row].append(seat)
+
+    context = {
+        'seating': seating,
+        'showtime': showtime
+    }    
+    
+    return render(request, 'movies/seat_selection.html', context)
