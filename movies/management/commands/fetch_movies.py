@@ -1,6 +1,6 @@
 import requests
 from django.core.management.base import BaseCommand
-from movies.models import Movie
+from movies.models import Movie, Genre
 from datetime import datetime, timedelta
 from django.conf import settings
 
@@ -18,8 +18,10 @@ class Command(BaseCommand):
         if now_playing_response.status_code == 200:
             movies_data = now_playing_response.json().get('results', [])
 
-            for movie_data in movies_data:
+            # Limit number of movies to 5
+            movies_data = movies_data[:5]
 
+            for movie_data in movies_data:
                 # Fetch movie runtimes from separate API endpoint
                 movie_id = movie_data['id']
                 details_url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US'
@@ -28,11 +30,22 @@ class Command(BaseCommand):
                 if details_response.status_code == 200:
                     runtime = details_response.json().get('runtime', 0)
 
+                     # Get the first genre ID from the API response
+                    genre_id = movie_data['genre_ids'][0]
+
+                    try:
+                        # Fetch the corresponding Genre instance from the database
+                        genre = Genre.objects.get(id=genre_id)
+                    except Genre.DoesNotExist:
+                        self.stdout.write(self.style.ERROR(f"Genre with ID {genre_id} does not exist in the database."))
+                        continue  # Skip this movie if the genre doesn't exist
+
+                    # Create or update the movie
                     movie, created = Movie.objects.update_or_create(
                         id = movie_id, 
                         defaults = {
                             'title': movie_data['title'],
-                            'genre': movie_data['genre_ids'][0],
+                            'genre': genre,
                             'release_date': datetime.strptime(movie_data['release_date'], '%Y-%m-%d'),
                             'duration': runtime,
                             'description': movie_data['overview'],
