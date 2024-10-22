@@ -9,34 +9,33 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         Showtimes.objects.all().delete()
 
+        showtime_slots = [10, 13, 15, 18, 20]
+
         for movie in Movie.objects.all():
-            showtimes = self.generate_showtimes_for_movie(movie)
+            showtimes = self.generate_showtimes_for_movie(movie, showtime_slots)
 
             for showtime in showtimes:
-
-                hour = showtime.hour
-                if hour == 14:
-                    ticket_price = 12
-                elif hour == 17:
-                    ticket_price = 18
-                elif hour == 20:
-                    ticket_price = 15
-                else:
-                    ticket_price = 15 
-
                 Showtimes.objects.create(
                     movie=movie,
                     showtime=showtime,
-                    ticket_price=ticket_price
+                    ticket_price=15
                 )
 
             self.stdout.write(self.style.SUCCESS(f'Added showtimes for {movie.title}'))
 
-    def generate_showtimes_for_movie(self, movie):
+    def generate_showtimes_for_movie(self, movie, showtime_slots):
         showtimes = []
         now = timezone.now()
-        for day in range(7):
-            showtimes.append(now + timedelta(days=day, hours=14))
-            showtimes.append(now + timedelta(days=day, hours=17))
-            showtimes.append(now + timedelta(days=day, hours=20))
+
+        movie_list = list(Movie.objects.all())
+
+        movie_index = movie_list.index(movie) 
+
+        if movie_index < len(showtime_slots):
+            slot_time = showtime_slots[movie_index] 
+
+            for day in range(4): 
+                showtime = now.replace(hour=slot_time, minute=0, second=0, microsecond=0) + timedelta(days=day)
+                showtimes.append(showtime)
+
         return showtimes
