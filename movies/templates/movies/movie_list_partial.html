@@ -3,6 +3,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{{ movie.title }}</h5>
+            <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster }}" alt="{{ movie.title }}">
             <p class="card-details">{{ movie.genre.name }}</p>
             <p class="card-details">{{ movie.duration }} mins</p>
             <a href="{% url 'movie_details' movie.id %}" class="btn btn-primary">View Showtimes</a>
