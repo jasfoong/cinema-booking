@@ -26,7 +26,7 @@
         <h2 class="mt-4">Showtimes</h2>
         <ul class="list-group mb-4">
             {% for showtime in showtimes %}
-                <li class="list-group-item">{{ showtime.showtime }}</li>
+                <a href="{% url 'seat_selection' showtime.id %}"><li class="list-group-item">{{ showtime.showtime }}</li></a>
             {% endfor %}
         </ul>
 
