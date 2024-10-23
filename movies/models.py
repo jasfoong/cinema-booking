@@ -14,6 +14,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     duration = models.IntegerField()
     description = models.TextField()
+    poster = models.TextField(default='path/to/default/poster.jpg')
 
     def __str__(self):
         return self.title 

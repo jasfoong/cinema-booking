@@ -49,6 +49,7 @@ class Command(BaseCommand):
                             'release_date': datetime.strptime(movie_data['release_date'], '%Y-%m-%d'),
                             'duration': runtime,
                             'description': movie_data['overview'],
+                            'poster': movie_data['poster_path']
                         }
                     )
                     if created:
