@@ -61,11 +61,13 @@ h1, h2 {
     margin: 0.3125rem;
     padding: 0.625rem 0.9375rem;
 }
+
 .seat.selected {
-    background-color: #28a745;
+    background-color: #33c054;
     color: white;
 }
 .seat.unavailable {
-    background-color: #dc3545;
+    background-color: #a8a6a6;
     color: white;
+    pointer-events: none;
 }
